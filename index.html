@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>쿼카 비디오랩 · 교육영상 편집기</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'><path d='M20 1C21.8 15 25 18.2 39 20C25 21.8 21.8 25 20 39C18.2 25 15 21.8 1 20C15 18.2 18.2 15 20 1Z' fill='%23ff4fa3'/></svg>">
+<link rel="stylesheet" href="fonts/gaegu.css">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body class="theme-bling">
+<div class="bgfx"></div>
+
+<header class="top">
+  <div class="logo">쿼카 <b>비디오랩</b><span class="tw">✦</span></div>
+  <input class="proj" id="title" value="새 영상" spellcheck="false" aria-label="영상 이름">
+  <select class="sel" id="ratio" aria-label="화면 비율"><option value="9:16">릴스 9:16</option><option value="16:9">가로 16:9</option><option value="1:1">정사각 1:1</option></select>
+  <span class="saved" id="saved">저장 안 됨</span>
+  <div class="sp"></div>
+  <span class="lbl-sm">테마</span>
+  <div class="seg" id="theme"><button data-v="bling" class="on">✦ 블링 나이트</button><button data-v="dark">다크</button></div>
+  <span class="chip ok" id="chkBox" title="자막·제목이 인스타·화면 가림 영역 밖에 있는지">박스 밖 0</span>
+  <span class="chip ok" id="chkOver" title="자막 글자가 자막바보다 긴지">넘침 0</span>
+  <button class="sel" id="btnSave">저장</button>
+  <button class="btn" id="btnExport">✦ 영상 뽑기</button>
+</header>
+
+<nav class="glass rail" id="rail">
+  <button data-tab="files" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 6h6l2 2h8v10H4z"/></svg>재료</button>
+  <button data-tab="bars"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="14" width="18" height="6" rx="3"/><path d="M7 9h10M9 5h6"/></svg>자막바</button>
+  <button data-tab="bg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M3 17l6-5 4 3 3-2 5 4"/></svg>배경</button>
+  <button data-tab="bling"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg>블링</button>
+  <button data-tab="code"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg>코드 애니</button>
+  <button data-tab="lab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 18c3-8 6-12 8-12s3 6 8 12"/><circle cx="12" cy="6" r="2" fill="currentColor"/></svg>모션랩</button>
+  <button data-tab="newtake"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8"/><path d="M10 9l5 3-5 3z" fill="currentColor"/></svg>뉴테이크</button>
+  <button data-tab="sound"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 16V8m4 10V6m4 12V9m4 6v-4m4 3v-2"/></svg>소리</button>
+</nav>
+<section class="glass lp" id="lp"></section>
+
+<main class="glass ctr">
+  <div class="pvs" id="pvs">
+    <div class="col"><div class="lbl"><b>편집 화면</b><span>끌어서 옮기기 · 가이드 박스</span></div><div class="stagebox" id="editHost"></div></div>
+    <div class="col"><div class="lbl"><b>완성 미리보기</b><span>영상 뽑기와 같은 틀</span></div><div class="stagebox" id="outHost"></div></div>
+  </div>
+  <div class="transport">
+    <button id="tStart" title="처음으로">⏮</button><button id="tPrev" title="한 프레임 뒤로">◀</button>
+    <button id="tPlay" class="play" title="재생 (스페이스)">▶</button><button id="tNext" title="한 프레임 앞으로">▶▶</button>
+    <span class="t" id="tTime">00:00.0 / 00:00.0</span>
+    <label class="ck"><input type="checkbox" id="ckGuide" checked><i></i>가이드 박스</label>
+    <label class="ck"><input type="checkbox" id="ckSide" checked><i></i>옆 미리보기</label>
+  </div>
+</main>
+
+<section class="glass tl" id="tl">
+  <div class="tools">
+    <button data-tool="split">✂ 자르기</button><button data-tool="dup">⧉ 복제</button><button data-tool="del">⌫ 지우기</button>
+    <button data-tool="sub">T 자막</button><button data-tool="title">Aa 제목</button><button data-tool="bling" class="gold">✦ 블링</button>
+    <button data-tool="memo" class="mint">✎ 이 시점 메모</button>
+    <div class="r"><label class="ck"><input type="checkbox" id="ckSnap" checked><i></i>자석</label><button id="zOut">－</button><input type="range" id="zoom" min="20" max="400" value="100"><button id="zIn">＋</button></div>
+  </div>
+  <div class="tlbody" id="tlbody"><div class="ruler" id="ruler"></div><div id="tracks"></div><div class="ph" id="ph"></div></div>
+</section>
+
+<aside class="glass rp">
+  <div class="tabs" id="rtabs"><button data-r="props" class="on">속성</button><button data-r="memo">메모·Claude</button></div>
+  <div class="bd" id="rp"></div>
+</aside>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="modal" id="modal" hidden><div class="mbox glass"><div id="mbody"></div><div class="mfoot"><button class="sel" id="mclose">닫기</button></div></div></div>
+<input type="file" id="filePick" multiple hidden accept="video/*,image/*,audio/*,.html,.htm,.srt,.json">
+<input type="file" id="srtPick" hidden accept=".srt,.vtt,.txt">
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

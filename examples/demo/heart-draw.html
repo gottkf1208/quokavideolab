@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<style>
+  html,body{margin:0;height:100%;background:transparent;overflow:hidden}
+  svg{position:absolute;inset:0;width:100%;height:100%}
+  .line{fill:none;stroke:#fff;stroke-width:14;stroke-linecap:round;stroke-dasharray:2600;stroke-dashoffset:2600;
+        filter:drop-shadow(0 0 10px #ff4fa3) drop-shadow(0 0 26px #ff4fa3);animation:draw 2.4s .3s cubic-bezier(.6,0,.2,1) forwards}
+  .fill{fill:#ff4fa3;opacity:0;animation:pop .6s 2.5s ease-out forwards;transform-origin:540px 980px}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  @keyframes pop{0%{opacity:0;transform:scale(.6)}60%{opacity:.9;transform:scale(1.06)}100%{opacity:.85;transform:scale(1)}}
+</style></head>
+<body>
+<!-- 코드로만 만든 애니메이션 예시: 선으로 하트를 그리고(CSS), 작은 하트가 떠오름(requestAnimationFrame) -->
+<svg viewBox="0 0 1080 1920" preserveAspectRatio="xMidYMid slice">
+  <path class="fill" d="M540 1260 C300 1100 180 960 220 820 C260 680 440 650 540 780 C640 650 820 680 860 820 C900 960 780 1100 540 1260Z"/>
+  <path class="line" d="M540 1260 C300 1100 180 960 220 820 C260 680 440 650 540 780 C640 650 820 680 860 820 C900 960 780 1100 540 1260Z"/>
+  <g id="floaters"></g>
+</svg>
+<script>
+  const g = document.getElementById('floaters'), N = 14, items = [];
+  let s = 7; const rnd = () => (s = (s * 1664525 + 1013904223) % 4294967296) / 4294967296;   // 매번 같은 무작위
+  for (let i = 0; i < N; i++) {
+    const el = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    el.setAttribute('d', 'M0 10 C-14 1 -8 -11 0 -3 C8 -11 14 1 0 10Z'); el.setAttribute('fill', i % 3 ? '#fff' : '#ffd1ea');
+    g.appendChild(el); items.push({ el, x: 200 + rnd() * 680, d: 2.4 + rnd() * 2.4, off: rnd() * 4, sz: 1.2 + rnd() * 2.2 });
+  }
+  const t0 = performance.now();
+  function frame(now) {
+    const t = (now - t0) / 1000;
+    items.forEach(it => {
+      const k = ((t + it.off) % it.d) / it.d, y = 1300 - k * 700, a = Math.sin(Math.PI * k);
+      it.el.setAttribute('transform', `translate(${it.x + Math.sin(t * 2 + it.off) * 30} ${y}) scale(${it.sz})`);
+      it.el.setAttribute('opacity', (a * (t > 2.6 ? 1 : 0)).toFixed(3));
+    });
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+</script>
+</body></html>

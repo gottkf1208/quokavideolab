@@ -1,0 +1,9 @@
+{
+  "name": "quokavideolab-render",
+  "private": true,
+  "type": "module",
+  "description": "쿼카 비디오랩 영상 뽑기 (편집기와 같은 무대를 한 프레임씩 찍어 mp4로)",
+  "scripts": { "render": "node render.mjs" },
+  "dependencies": { "playwright": "^1.48.0" },
+  "optionalDependencies": { "undici": "^6.19.0" }
+}
